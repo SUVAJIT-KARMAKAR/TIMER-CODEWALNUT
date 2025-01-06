@@ -7,7 +7,7 @@ export const TimerList: React.FC = () => {
   const { timers } = useTimerStore();
 
   return (
-    <div className="space-y-4 min-h-[400px]">
+    <div className="space-y-4 min-h-[400px] mt-10">
       {timers.length === 0 ? (
         <div className="h-[400px] flex flex-col items-center justify-center">
           <EmptyState />
