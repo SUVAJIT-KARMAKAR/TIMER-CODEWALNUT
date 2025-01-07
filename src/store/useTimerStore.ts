@@ -2,8 +2,18 @@ import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { Timer } from "../types/timer";
 
+
+const loadTimersFromStorage = (): Timer[] => {
+  try {
+    const stored = localStorage.getItem('timers');
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+};
+
 const initialState = {
-  timers: [] as Timer[],
+  timers: loadTimersFromStorage() as Timer[],
 };
 
 const timerSlice = createSlice({
@@ -50,6 +60,16 @@ const timerSlice = createSlice({
 
 const store = configureStore({
   reducer: timerSlice.reducer,
+});
+
+
+store.subscribe(() => {
+  const state = store.getState();
+  try {
+    localStorage.setItem('timers', JSON.stringify(state.timers));
+  } catch (error) {
+    console.error('Failed to save timers to localStorage:', error);
+  }
 });
 
 export { store };
