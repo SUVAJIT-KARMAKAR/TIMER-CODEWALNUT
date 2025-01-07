@@ -22,6 +22,19 @@ export const TimerItem: React.FC<TimerItemProps> = ({ timer }) => {
   const intervalRef = useRef<number | null>(null);
   const timerAudio = TimerAudio.getInstance();
   const hasEndedRef = useRef(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768); 
+    };
+
+    checkIsMobile();
+
+    window.addEventListener('resize', checkIsMobile);
+
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
 
   useEffect(() => {
     if (isRunning) {
@@ -33,6 +46,7 @@ export const TimerItem: React.FC<TimerItemProps> = ({ timer }) => {
   
             toast.success(`Timer "${timer.title}" has ended!`, {
               duration: Infinity,
+              position: isMobile ? 'bottom-center' : 'top-right',
               action: {
                 label: "Dismiss",
                 onClick: () => {
@@ -53,7 +67,7 @@ export const TimerItem: React.FC<TimerItemProps> = ({ timer }) => {
         clearInterval(intervalRef.current);
       }
     };
-  }, [isRunning, timer.title, timer.id, timerAudio]);
+  }, [isRunning, timer.title, timer.id, timerAudio, isMobile]);
 
   useEffect(() => {
     setRemainingTime(timer.remainingTime);
