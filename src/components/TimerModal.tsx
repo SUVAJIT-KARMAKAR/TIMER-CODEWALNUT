@@ -6,13 +6,14 @@ import { Timer } from "../types/timer";
 import { Button } from "./Button";
 import { toast, ToasterProps } from "sonner";
 
+// Define the properties expected for the TimerModal component
 interface TimerModalProps {
   isOpen: boolean;
   onClose: () => void;
   timer?: Timer;
 }
 
-const MOBILE_BREAKPOINT = 768; 
+const MOBILE_BREAKPOINT = 768; // Screen width breakpoint for responsive design
 
 export const TimerModal: React.FC<TimerModalProps> = ({
   isOpen,
@@ -20,6 +21,8 @@ export const TimerModal: React.FC<TimerModalProps> = ({
   timer,
 }) => {
   const isEditMode = !!timer;
+
+  // State variables for timer properties
   const [title, setTitle] = useState(timer?.title || "");
   const [description, setDescription] = useState(timer?.description || "");
   const [hours, setHours] = useState(
@@ -29,17 +32,22 @@ export const TimerModal: React.FC<TimerModalProps> = ({
     timer ? Math.floor((timer.duration % 3600) / 60) : 0
   );
   const [seconds, setSeconds] = useState(timer ? timer.duration % 60 : 0);
+
+  // State to track if input fields have been touched
   const [touched, setTouched] = useState({
     title: false,
     hours: false,
     minutes: false,
     seconds: false,
   });
+
+  // State for dynamic toast notification positioning
   const [toastPosition, setToastPosition] =
     useState<ToasterProps["position"]>("top-right");
 
   const { addTimer, editTimer } = useTimerStore();
 
+  // Handle window resize to adjust toast position dynamically
   useEffect(() => {
     const handleResize = () => {
       setToastPosition(
@@ -80,15 +88,18 @@ export const TimerModal: React.FC<TimerModalProps> = ({
 
   if (!isOpen) return null;
 
+   // Show an error toast with a given message
   const showError = (message: string) => {
     toast.error(message, {
       position: toastPosition,
     });
   };
 
+  // Handle form submission for adding or editing a timer
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Mark all fields as touched to trigger validation
     setTouched({
       title: true,
       hours: true,
@@ -99,6 +110,7 @@ export const TimerModal: React.FC<TimerModalProps> = ({
     const isTimeValid = hours > 0 || minutes > 0 || seconds > 0;
     const isTitleValid = title.trim().length > 0 && title.length <= 50;
 
+    // Show error messages if validation fails
     if (!isTitleValid || !isTimeValid) {
       if (!isTitleValid) {
         showError("Please enter a valid title (1-50 characters)");
@@ -116,6 +128,7 @@ export const TimerModal: React.FC<TimerModalProps> = ({
 
     const totalSeconds = hours * 3600 + minutes * 60 + seconds;
 
+    // Edit or add a timer based on the current mode
     if (isEditMode && timer) {
       editTimer(timer.id, {
         title: title.trim(),
@@ -135,6 +148,7 @@ export const TimerModal: React.FC<TimerModalProps> = ({
     onClose();
   };
 
+  // Handle closing the modal and reset touched states
   const handleClose = () => {
     onClose();
     setTouched({
