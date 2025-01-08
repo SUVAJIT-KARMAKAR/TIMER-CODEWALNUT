@@ -6,9 +6,9 @@ import { useTimerStore } from "../../store/useTimerStore";
 import { toast } from "sonner";
 import { TimerModal } from "../TimerModal/TimerModal";
 import { TimerAudio } from "../../utils/audio";
-import { TimerControls } from "./TimerControls";
+import { TimerControls } from "../TimerControls/TimerControls";
 import { TimerProgress } from "../TimerProgress";
-import { Button } from "./Button";
+import { Button } from "../Button/Button";
 
 // Props interface for the TimerItem component
 interface TimerItemProps {
@@ -124,21 +124,21 @@ export const TimerItem: React.FC<TimerItemProps> = ({ timer }) => {
             </div>
             <div className="flex gap-2 ml-4">
               <Button
-                variant="icon"
+                variant="secondary"
                 onClick={() => setIsEditModalOpen(true)} 
                 title="Edit Timer"
               >
                 <Pencil className="w-5 h-5 text-blue-500" />
               </Button>
               <Button
-                variant="icon"
+                variant="secondary"
                 onClick={handleRestart} 
                 title="Restart Timer"
               >
                 <RotateCcw className="w-5 h-5 text-blue-500" />
               </Button>
               <Button
-                variant="icon"
+                variant="secondary"
                 onClick={handleDelete} 
                 title="Delete Timer"
               >

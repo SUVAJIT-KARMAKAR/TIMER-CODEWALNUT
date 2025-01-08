@@ -1,6 +1,6 @@
 import React from "react";
 import { Play, Pause, RotateCcw } from "lucide-react";
-import { useTimerStore } from "../store/useTimerStore";
+import { useTimerStore } from "../../store/useTimerStore";
 
 // Props interface for the TimerControls component
 interface TimerControlsProps {

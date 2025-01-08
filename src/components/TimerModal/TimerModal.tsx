@@ -3,7 +3,7 @@ import { X, Clock } from "lucide-react";
 import { useTimerStore } from "../../store/useTimerStore";
 import { validateTimerForm } from "../../utils/validation";
 import { Timer } from "../../types/timer";
-import { Button } from "./Button";
+import { Button } from "../Button/Button";
 import { toast, ToasterProps } from "sonner";
 
 interface TimerModalProps {

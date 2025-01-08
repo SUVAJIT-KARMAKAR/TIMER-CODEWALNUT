@@ -1,7 +1,7 @@
 // components/Button.tsx
 import { ButtonHTMLAttributes } from 'react';
-import { useTimerStore } from '../store/useTimerStore';
-import { getThemeClass } from '../utils/theme';
+import { useTimerStore } from '../../store/useTimerStore';
+import { getThemeClass } from '../../utils/theme';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary';
